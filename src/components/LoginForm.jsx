@@ -1,8 +1,10 @@
 import React from 'react';
 import * as yup from 'yup';
-import { Formik } from 'formik'
+import { Form, Formik, ErrorMessage } from 'formik'
 import { login } from '../features/user';
 import { useDispatch } from 'react-redux';
+import { Button, TextField } from '@mui/material'
+
 
 const LoginForm = () => {
     
@@ -30,41 +32,58 @@ const LoginForm = () => {
                 validationSchema={validationsSchema}
                 onSubmit={(values) => loginUser(values)}
             >
-                {({ values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty }) => (
-                    <div className='login__form'>
-                        <label htmlFor={"name"}>Name</label>
-                        <input
-                            type='text'
-                            name={'name'}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.name}
-                        />
-                        {touched.name && errors.name && <p className='error'>{errors.name}</p>}
-                        <label htmlFor={"email"}>E-mail</label>
-                        <input
-                            type='email'
-                            name={'email'}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.email}
-                        />
-                        {touched.email && errors.email && <p className='error'>{errors.email}</p>}
-                        <label htmlFor={"password"}>Password</label>
-                        <input
-                            type='password'
-                            name={'password'}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.password}
-                        />
-                        {touched.password && errors.password && <p className='error'>{errors.password}</p>}
-                        <button
+                {({ values, handleChange, handleBlur, isValid, handleSubmit, dirty }) => (
+                    <Form className='login__form'>
+                        <div className='login__input'>
+                            <TextField 
+                                id="outlined-basic" 
+                                label="Name" 
+                                variant="standard" 
+                                type='text'
+                                name={'name'}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.name}
+                                fullWidth
+                            />
+                            <ErrorMessage name='name' className='login__input-error'/>
+                        </div>
+                        <div className='login__input'>
+                            <TextField
+                                id="outlined-basic" 
+                                label="E-mail" 
+                                variant="standard" 
+                                type='email'
+                                name={'email'}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.email}
+                                fullWidth
+                            />
+                            <ErrorMessage name='email'/>
+                        </div>
+                        <div className='login__input'>
+                            <TextField
+                                id="outlined-basic" 
+                                label="Password" 
+                                variant="standard" 
+                                type='password'
+                                name={'password'}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.password}
+                                fullWidth
+                            />
+                            <ErrorMessage name='password'/>
+                        </div>
+                        <Button 
+                            variant="contained"
                             type='submit'
+                            className='main__btn'
                             onClick={handleSubmit}
                             disabled={!isValid && !dirty}
-                        >LogIn</button>
-                    </div>
+                        >Login</Button>
+                    </Form>
                 )}
             </Formik>
         </div>

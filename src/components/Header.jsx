@@ -8,9 +8,9 @@ const Header = () => {
     const user = useSelector((state) => state.user.value)
 
     return (
-        <header>
-            <h2>Welcome {user.name}</h2>
-            <LogoutBtn />
+        <header className='header'>
+            <h2>Welcome <span className='user'>{user.name}</span></h2>
+            <LogoutBtn className='main__btn' />
         </header>
     );
 };

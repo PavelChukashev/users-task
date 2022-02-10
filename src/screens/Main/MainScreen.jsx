@@ -5,7 +5,7 @@ import UsersList from '../../components/UsersList';
 const MainScreen = () => {
 
     return (
-        <div>
+        <div className='main-container'>
             <Header />
             <UsersList />
         </div>

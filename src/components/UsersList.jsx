@@ -3,6 +3,11 @@ import React, { useEffect, useMemo } from 'react';
 import { getUsers } from '../features/usersSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { ColumnFilter } from './ColumnFilter';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 const UsersList = () => {
 
@@ -54,45 +59,46 @@ const UsersList = () => {
         prepareRow, 
     } = tableInstance;
 
+    const handleFilterClick = (e) => {
+        e.stopPropagation()
+    }
+
     
     return (
         <>
-            <table {...getTableProps()}>
-                <thead>
+            <Table {...getTableProps()} className='main__table'>
+                <TableHead className='main__table__head'>
                     {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
+                        <TableRow {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
-                                <>
-                                    <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                                        {column.render('Header')}
-                                        <span>
-                                            {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ''}
-                                        </span>
-                                    </th>
-                                    <div>{column.canFilter ? column.render('Filter') : null}</div>
-                                </>
+                                <TableCell {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.render('Header')}
+                                    <span>
+                                        {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ''}
+                                    </span>
+                                    <div onClick={(e) => handleFilterClick(e)}>{column.canFilter ? column.render('Filter') : null}</div>
+                                </TableCell>
                             ))}
-                        </tr>
+                        </TableRow>
                     ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
+                </TableHead>
+                <TableBody {...getTableBodyProps()}>
                     {
                         rows.map(row => {
                             prepareRow(row)
                             return (
-                                <tr {...row.getRowProps()}>
+                                <TableRow {...row.getRowProps()}>
                                     {
                                         row.cells.map( cell => {
-                                            return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                            return <TableCell {...cell.getCellProps()}>{cell.render('Cell')}</TableCell>
                                         })
                                     } 
-                                </tr>
+                                </TableRow>
                             )
                         })
-                    }
-                    
-                </tbody>
-            </table>
+                    } 
+                </TableBody>
+            </Table>
         </>
     );
 };

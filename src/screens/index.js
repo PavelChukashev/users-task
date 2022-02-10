@@ -6,7 +6,7 @@ import MainScreen from './Main/MainScreen'
 export default function Main() {
     const user = useSelector((state) => state.user.value)
     return (
-        <div>
+        <div className='main'>
             {user.isAuth ? <MainScreen /> : <LoginScreen />}
         </div>
     );

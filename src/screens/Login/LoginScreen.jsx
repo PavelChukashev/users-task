@@ -4,7 +4,7 @@ import LoginForm from '../../components/LoginForm';
 const LoginScreen = () => {
     return (
         <>
-            <h2>Login</h2>
+            <h1>Emphasoft Task</h1>
             <LoginForm />
         </>
     );
