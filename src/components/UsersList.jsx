@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useTable, useSortBy, useFilters } from 'react-table';
+import React, { useEffect, useMemo } from 'react';
 import { getUsers } from '../features/usersSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { ColumnFilter } from './ColumnFilter';
 
 const UsersList = () => {
 
@@ -11,33 +13,87 @@ const UsersList = () => {
     }, [dispatch]);
     
     const users = useSelector((state) => state.usersList.users)
-    console.log(users);
 
-    const ShowUsers = () => {
-        return users.map((user) => 
-            <tr className='user' key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.username}</td>
-                <td>{user.first_name}</td>
-                <td>{user.last_name}</td>
-            </tr>
-        )
-    };
+    const columns = useMemo(() => ([
+        {
+            Header: 'ID',
+            accessor: 'id',
+            disableFilters: true
+        },
+        {
+            Header: 'Username',
+            accessor: 'username',
+            Filter: ColumnFilter
+        },
+        {
+            Header: 'First Name',
+            accessor: 'first_name',
+            disableFilters: true
+        },
+        {
+            Header: 'Last Name',
+            accessor: 'last_name',
+            disableFilters: true
+        },
+
+    ]),[]);
+
+    const defaultColumn = useMemo(() => {
+        return {
+            Filter: ColumnFilter
+        }
+    }, [])
+
+    const tableInstance = useTable({ columns, data: users, defaultColumn }, useFilters, useSortBy)
+
+    const { 
+        getTableProps, 
+        getTableBodyProps, 
+        headerGroups, 
+        rows, 
+        prepareRow, 
+    } = tableInstance;
+
     
     return (
-        <div>
-            <table>
+        <>
+            <table {...getTableProps()}>
                 <thead>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    {headerGroups.map((headerGroup) => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column) => (
+                                <>
+                                    <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                        {column.render('Header')}
+                                        <span>
+                                            {column.isSorted ? (column.isSortedDesc ? ' ▼' : ' ▲') : ''}
+                                        </span>
+                                    </th>
+                                    <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                </>
+                            ))}
+                        </tr>
+                    ))}
                 </thead>
-                <tbody>
-                    <ShowUsers />
+                <tbody {...getTableBodyProps()}>
+                    {
+                        rows.map(row => {
+                            prepareRow(row)
+                            return (
+                                <tr {...row.getRowProps()}>
+                                    {
+                                        row.cells.map( cell => {
+                                            return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                        })
+                                    } 
+                                </tr>
+                            )
+                        })
+                    }
+                    
                 </tbody>
             </table>
-        </div>
+        </>
     );
 };
 
