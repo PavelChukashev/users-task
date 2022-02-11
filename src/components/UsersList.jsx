@@ -11,13 +11,14 @@ import TableRow from '@mui/material/TableRow';
 
 const UsersList = () => {
 
+    const user = useSelector((state) => state.user.value)
+    const usersList = useSelector((state) => state.usersList.users)
     const dispatch = useDispatch()
-
+    
     useEffect(() => {
         dispatch(getUsers())
     }, [dispatch]);
     
-    const users = useSelector((state) => state.usersList.users)
 
     const columns = useMemo(() => ([
         {
@@ -49,7 +50,15 @@ const UsersList = () => {
         }
     }, [])
 
-    const tableInstance = useTable({ columns, data: users, defaultColumn }, useFilters, useSortBy)
+    const tableInstance = useTable(
+        { 
+            columns, 
+            data: usersList, 
+            defaultColumn 
+        }, 
+        useFilters, 
+        useSortBy,
+    )
 
     const { 
         getTableProps, 
