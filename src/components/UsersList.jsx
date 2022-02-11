@@ -11,12 +11,13 @@ import TableRow from '@mui/material/TableRow';
 
 const UsersList = () => {
 
-    const user = useSelector((state) => state.user.value)
     const usersList = useSelector((state) => state.usersList.users)
     const dispatch = useDispatch()
     
     useEffect(() => {
-        dispatch(getUsers())
+        setTimeout(() => {
+            dispatch(getUsers())
+        }, 1000);
     }, [dispatch]);
     
 
