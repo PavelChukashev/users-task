@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const getUsers = createAsyncThunk(
     'users/getUsers',
     async () => {
-        const authToken = sessionStorage.getItem('Token')
+        const authToken = localStorage.getItem('Token')
             return await fetch(
                 'http://emphasoft-test-assignment.herokuapp.com/api/v1/users/',
                 {

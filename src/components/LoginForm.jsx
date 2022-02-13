@@ -9,19 +9,13 @@ import { Button, TextField } from '@mui/material'
 const LoginForm = () => {
     
     const dispatch = useDispatch()
-
     
     const USER = 'test_super'
     const PASSWORD = 'Nf<U4f<rDbtDxAPn'
-    
-    localStorage.setItem('user', USER)
-    localStorage.setItem('password', PASSWORD)
 
-    let user = localStorage.getItem('user')
-    let password = localStorage.getItem('password')
 
     function loginUser (values) {
-        if (values.name === user && values.password === password) {
+        if (values.name === USER && values.password === PASSWORD) {
             dispatch(getToken())
             setTimeout(() => {
                 dispatch(login({name: values.name, password: values.password, isAuth: true}))

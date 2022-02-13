@@ -18,7 +18,7 @@ export const getToken = createAsyncThunk(
         )
         
         const tokenResult = await res.json()
-        sessionStorage.setItem('Token', tokenResult.token)
+        localStorage.setItem('Token', tokenResult.token)
     }
 )
 
@@ -31,9 +31,11 @@ export const userSlice = createSlice({
     reducers: {
         login: (state, action) => {
             state.value = action.payload
+            localStorage.setItem('name', state.value.name)
         },
         logout: (state) => {
             state.value = defaultState
+            localStorage.clear()
         }
     },
     extraReducers: {
