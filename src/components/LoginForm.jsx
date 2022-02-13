@@ -22,8 +22,10 @@ const LoginForm = () => {
 
     function loginUser (values) {
         if (values.name === user && values.password === password) {
-            dispatch(login({name: values.name, password: values.password, isAuth: true}))
             dispatch(getToken())
+            setTimeout(() => {
+                dispatch(login({name: values.name, password: values.password, isAuth: true}))
+            }, 700);
         }
     }
 

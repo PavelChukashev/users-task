@@ -15,9 +15,7 @@ const UsersList = () => {
     const dispatch = useDispatch()
     
     useEffect(() => {
-        setTimeout(() => {
-            dispatch(getUsers())
-        }, 1000);
+        dispatch(getUsers())
     }, [dispatch]);
     
 
